@@ -1,0 +1,76 @@
+#include "gui/hooks.hpp"
+#include "gui/InputManager.hpp"
+
+#include "hk/gfx/DebugRenderer.h"
+#include "hk/gfx/Font.h"
+#include "hk/hook/Trampoline.h"
+#include "nvn/nvn_Cpp.h"
+#include "nvn/nvn_CppMethods.h" // IWYU pragma: keep
+#include "orion/graphics/FinalizeRenderer.hpp"
+
+#include "embed_maple_mono_hkf.h"
+
+namespace gui {
+    static nvn::CommandBuffer* queued_command_buffer = nullptr;
+    static hk::util::Storage<hk::gfx::Font> mapleMonoFont;
+    static u8 mapleMonoFontBuffer[0x8000] __attribute__((aligned(hk::cPageSize))) { 0 };
+    static bool mapleMonoFontInitialized = false;
+
+    void initializeFont()
+    {
+        if (mapleMonoFontInitialized)
+            return;
+        auto renderer = hk::gfx::DebugRenderer::instance();
+        mapleMonoFont.create((void*)maple_mono_hkf, renderer->getDevice(), mapleMonoFontBuffer);
+        mapleMonoFontInitialized = true;
+
+        renderer->setFont(mapleMonoFont.getUnsafe());
+    }
+
+    static HkTrampoline finalizeDrawScreen = [](TrampolineStatic(), orion::graphics::FinalizeHolder* this_) -> void {
+        orig(this_);
+        if (!mapleMonoFontInitialized)
+        {
+            // presumably the renderer is initialized at this point
+            initializeFont();
+        }
+        auto renderer = hk::gfx::DebugRenderer::instance();
+        // hijack the FinalizeRenderer's command buffer
+        auto command_buffer = static_cast<nvn::CommandBuffer*>(
+            this_->renderer->command_buffer_container->holders[1 ^ orion::graphics::ActiveCommandBufferIndex]
+                .command_buffer.ToData()
+                ->pNvnCommandBuffer);
+        // store it so we can submit our commands in a later accessible queue
+        queued_command_buffer = command_buffer;
+        renderer->clear();
+        command_buffer->BeginRecording();
+        renderer->begin(command_buffer);
+        gui::onFrame(renderer);
+    };
+
+    // static HkTrampoline<void, nvn::Queue*, nvn::Window*, int> nvnQueuePresentTextureTrampoline
+    // = hk::hook::trampoline([](nvn::Queue* queue, nvn::Window* window, int texIndex) -> void {
+    static HkTrampoline nvnQueuePresentTextureTrampoline
+        = [](TrampolineStatic(), nvn::Queue* queue, nvn::Window* window, int texIndex) -> void {
+        // hijack the Queue the next time queuePresentTexture is called
+        if (queued_command_buffer != nullptr)
+        {
+            auto* renderer = hk::gfx::DebugRenderer::instance();
+
+            auto handle = queued_command_buffer->EndRecording();
+            renderer->end();
+
+            queue->SubmitCommands(1, &handle);
+            queued_command_buffer = nullptr;
+        }
+        orig(queue, window, texIndex);
+    };
+
+    void installHooks()
+    {
+        finalizeDrawScreen.installAtPtr(pun<void*>(&orion::graphics::FinalizeHolder::FinalizeDrawScreen));
+        nvnQueuePresentTextureTrampoline.installAtPtr(nvnBootstrapLoader("nvnQueuePresentTexture"));
+        InputManager::installInputHooks();
+        hk::gfx::DebugRenderer::instance()->installHooks();
+    }
+}

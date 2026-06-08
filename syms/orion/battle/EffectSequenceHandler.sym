@@ -1,0 +1,4 @@
+@game:shield
+_ZN5orion6battle21EffectSequenceHandler13StartSequenceEib = 0x979350
+_ZN5orion6battle21EffectSequenceHandler13StartSequenceEPNS_10filesystem14FilePathHandleEb = 0x979ee0
+_ZN5orion6battle21EffectSequenceHandler23QueueFormChangeSequenceEPvj = 0x9a2210

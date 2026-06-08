@@ -1,0 +1,51 @@
+name: build
+
+on: [workflow_dispatch, push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Set up dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip git wget
+          python sys/tools/setup_libcxx_prepackaged.py
+          python sys/tools/setup_sail.py
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 20
+          sudo apt-get install -y clang-20 llvm-20 lld-20
+          sudo ln -sf /usr/bin/clang-20 /usr/bin/clang
+          sudo ln -sf /usr/bin/clang++-20 /usr/bin/clang++
+          python3 -m pip install pyelftools mmh lz4
+      - name: Build RomFS
+        run: |
+          cd romfs
+          python generate_romfs.py
+          cd ..
+      - name: Build Sword
+        env:
+          TITLE_ID: '0x0100ABF008968000'
+        run: |
+          rm -rf build
+          cmake -B build -DCMAKE_BUILD_TYPE="Debug"
+          cmake --build build -j $(nproc)
+      - name: Build Shield
+        env:
+          TITLE_ID: '0x01008DB008C2C000'
+        run: |
+          cmake -B build -DCMAKE_BUILD_TYPE="Debug"
+          cmake --build build -j $(nproc)
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mod
+          path: |
+            build/sd
+            licenses
+            romfs/build

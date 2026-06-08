@@ -1,0 +1,23 @@
+---
+BasedOnStyle: WebKit
+
+AlignAfterOpenBracket: Align
+AllowShortFunctionsOnASingleLine: Inline
+AlwaysBreakTemplateDeclarations: Yes
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: true
+  AfterClass: false
+  AfterControlStatement: true
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: false
+  AfterStruct: false
+  BeforeElse: true
+  BeforeLambdaBody: false
+BreakConstructorInitializers: AfterColon
+ColumnLimit: 140
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+NamespaceIndentation: All
+PointerAlignment: Left
+LambdaBodyIndentation: OuterScope

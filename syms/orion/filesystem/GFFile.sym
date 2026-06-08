@@ -1,0 +1,3 @@
+@game:shield
+_ZN5orion10filesystem6GFFile11WriteToDiskEv = 0x5e7e20
+_ZN5orion10filesystem14FilePathHandle8FromPathEPKc = 0x7801a0

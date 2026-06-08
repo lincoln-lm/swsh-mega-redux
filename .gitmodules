@@ -1,0 +1,12 @@
+[submodule "sys"]
+	path = sys
+	url = https://github.com/fruityloops1/LibHakkun.git
+[submodule "lib/nnheaders"]
+	path = lib/nnheaders
+	url = https://github.com/open-ead/nnheaders.git
+[submodule "lib/flatbuffers"]
+	path = lib/flatbuffers
+	url = https://github.com/google/flatbuffers.git
+[submodule "romfs"]
+	path = romfs
+	url = https://github.com/lincoln-lm/swsh-mega-redux-romfs.git
