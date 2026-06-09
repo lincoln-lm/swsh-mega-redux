@@ -15,7 +15,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 set(IS_32_BIT FALSE)
 set(TARGET_IS_STATIC FALSE)
-set(MODULE_NAME challenge-pack)
+set(MODULE_NAME swsh-mega-redux)
 
 if (DEFINED ENV{TITLE_ID})
     set(TITLE_ID $ENV{TITLE_ID})
