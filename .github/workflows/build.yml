@@ -6,10 +6,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Install SSH Key
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Checkout
         uses: actions/checkout@v3
         with:
           submodules: recursive
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+      - name: Install flatc
+        uses: Nugine/setup-flatc@v1
       - name: Set up dependencies
         run: |
           sudo apt-get update
@@ -23,10 +31,16 @@ jobs:
           sudo ln -sf /usr/bin/clang-20 /usr/bin/clang
           sudo ln -sf /usr/bin/clang++-20 /usr/bin/clang++
           python3 -m pip install pyelftools mmh lz4
+          mkdir -p $HOME/.local/bin
+          curl -sSL https://github.com/lincoln-lm/ultimate_tex/releases/download/release/ultimate_tex_cli_linux_x64.zip | funzip > $HOME/.local/bin/ultimate_tex_cli
+          chmod +x $HOME/.local/bin/ultimate_tex_cli
+          curl -sSL https://github.com/lincoln-lm/BntxFixer/releases/download/release/BntxFixer -o $HOME/.local/bin/BntxFixer
+          chmod +x $HOME/.local/bin/BntxFixer
       - name: Build RomFS
         run: |
+          pip install uv
           cd romfs
-          python generate_romfs.py
+          uv run generate_romfs.py
           cd ..
       - name: Build Sword
         env:
@@ -41,11 +55,15 @@ jobs:
         run: |
           cmake -B build -DCMAKE_BUILD_TYPE="Debug"
           cmake --build build -j $(nproc)
+      - name: Copy RomFS
+        run: |
+          cp -r romfs/build build/sd/atmosphere/contents/0100ABF008968000/romfs
+          cp -r romfs/build build/sd/atmosphere/contents/01008DB008C2C000/romfs
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: mod
           path: |
             build/sd
-            licenses
-            romfs/build
+            third-party-licenses
+            LICENSE
