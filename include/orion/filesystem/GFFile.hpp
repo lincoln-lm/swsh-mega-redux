@@ -3,18 +3,20 @@
 #include "orion/field/FieldObject.hpp"
 #include "orion/string/HashedString.hpp"
 namespace orion::filesystem {
-    struct GFFile {
-        u8 unk0[0x68 + 0x8];
+    struct GFFile : BaseObject {
+        u8 unk0[0x10];
         const char* filePath;
         // ...
-        u8 unk1[0x180 - 0x68 - 0x8 - 0x8];
-        size fileSize;
-        size filePosition;
+        u8 unk1[0x180 - 0x68 - 0x8 - 0x8 - 0x8];
+        Allocator* fileAllocator;
+        ::size fileSize;
+        ::size filePosition;
         void* buffer;
         Allocator* activeAllocator;
-        size bufferSize;
-        size bufferAlignment;
+        ::size bufferSize;
+        ::size bufferAlignment;
         void WriteToDisk();
+        void ReadIntoBuffer();
     };
     static_assert(offsetof(GFFile, filePath) == 0x68 + 0x8);
     static_assert(offsetof(GFFile, fileSize) == 0x180);

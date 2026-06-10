@@ -4,6 +4,7 @@
 #include "hk/mem/BssHeap.h"
 #include "mega_evolution.hpp"
 #include "orion/field/FieldManager.hpp"
+#include "orion/filesystem/GFFile.hpp"
 
 extern "C" {
 void* __libc_malloc(std::size_t size)
@@ -16,6 +17,21 @@ void __libc_free(void* ptr)
 }
 }
 
+// TODO: find out why this allocation fails :(
+inline auto failedAllocateFix = hook::inlineHook([](hook::CpuState* state) {
+    auto gffile = pun<orion::filesystem::GFFile*>(state->X[19]);
+    // original instruction
+    state->X[1] = pun<u64>(gffile->buffer);
+
+    if (state->X[0] == 0)
+    {
+        // later: gffile->activeAllocator = x20
+        state->X[20] = pun<u64>(gffile->allocator);
+        gffile->fileAllocator = gffile->allocator;
+        state->X[0] = pun<u64>(gffile->allocator->Alloc(state->X[21], 0x10));
+    }
+});
+
 void gui::onFrame(hk::gfx::DebugRenderer* renderer)
 {
     InputManager::updateControllerState();
@@ -27,7 +43,8 @@ HkTrampoline onGameInit = [](TrampolineStatic(), orion::field::FieldManager* thi
 extern "C" void hkMain()
 {
     // arbitrary function only called once at game init some time past nnMain
-    onGameInit.installAtPtr(pun<void*>(&orion::field::FieldManager::ctor));
+    onGameInit.installAtPtr(&orion::field::FieldManager::ctor);
+    failedAllocateFix.installAtPtrOffset(pun<ptr>(&orion::filesystem::GFFile::ReadIntoBuffer), 0x3c);
     gui::installHooks();
     installMegaEvolutionMod();
 }
