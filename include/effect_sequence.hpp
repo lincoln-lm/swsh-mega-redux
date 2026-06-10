@@ -17,11 +17,11 @@ inline auto onFormChangeSequenceQueue = hook::inlineHook([](hook::CpuState* stat
     auto pokemon = pun<orion::battle::BattlePartyMember*>(state->X[22]);
     auto species = pokemon->species;
     auto form = pokemon->rawPokeInfo->GetForm();
-    if (isMega(species, form))
+    if (personal_info::isMega(species, form))
     {
         state->X[21] = cMegaEvolutionSequence;
     }
-    else if (isPrimal(species, form))
+    else if (personal_info::isPrimal(species, form))
     {
         state->X[21] = cPrimalReversionSequence;
     }

@@ -45,7 +45,7 @@ inline HkTrampoline onInitialize = [](TrampolineStatic(), orion::battle::ui::Mov
 inline HkTrampoline onUpdate = [](TrampolineStatic(), orion::battle::ui::BattleUI* this_) -> void {
     orig(this_);
     auto active_pokemon = this_->unk68->unk60->activePokemon;
-    bool can_mega_evolve = canMegaEvolve(active_pokemon->species, 0, active_pokemon->item);
+    bool can_mega_evolve = personal_info::canMegaEvolve(active_pokemon->species, 0, active_pokemon->item);
     if (sCanMegaEvolve != can_mega_evolve)
     {
         sCanMegaEvolve = can_mega_evolve;

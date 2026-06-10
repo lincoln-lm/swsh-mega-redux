@@ -21,7 +21,9 @@ inline HkTrampoline onBattleSetupInitialize
 inline void triggerMega(orion::battle::BattleHandler* battle_handler, orion::battle::ActionHandler* action_handler,
                         orion::battle::BattlePartyMember* b)
 {
-    battle_handler->FormChange(b->id, 1, true);
+    // TODO: XYZ
+    auto mega_info = personal_info::getMegaInfo(b->species);
+    battle_handler->FormChange(b->id, mega_info->form, true);
     u16 new_ability = b->rawPokeInfo->GetAbility();
     battle_handler->FormChangeDisplay(b->id);
     battle_handler->ShowAbility(b->id);
@@ -49,7 +51,7 @@ inline auto onSwitchIn = hook::inlineHook([](hook::CpuState* state) {
     state->X[0] = state->X[19];
     auto event_handler = pun<orion::battle::EventHandler*>(state->X[20]);
     auto b = pun<orion::battle::BattlePartyMember*>(state->X[21]);
-    if (canPrimalRevert(b->species, b->rawPokeInfo->GetForm(), b->item))
+    if (personal_info::canPrimalRevert(b->species, b->rawPokeInfo->GetForm(), b->item))
     {
         triggerMega(event_handler->battleHandler, event_handler->actionHandler, b);
     }
