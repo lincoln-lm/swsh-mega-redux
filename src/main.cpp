@@ -2,6 +2,7 @@
 #include "gui/hooks.hpp"
 #include "hk/hook/Trampoline.h"
 #include "hk/mem/BssHeap.h"
+#include "hook/MainOffset.hpp"
 #include "mega_evolution.hpp"
 #include "orion/field/FieldManager.hpp"
 #include "orion/filesystem/GFFile.hpp"
@@ -44,7 +45,9 @@ extern "C" void hkMain()
 {
     // arbitrary function only called once at game init some time past nnMain
     onGameInit.installAtPtr(&orion::field::FieldManager::ctor);
-    failedAllocateFix.installAtPtrOffset(pun<ptr>(&orion::filesystem::GFFile::ReadIntoBuffer), 0x3c);
+    failedAllocateFix.installAtPtrOffset(&orion::filesystem::GFFile::ReadIntoBuffer, 0x3c);
+    createMegaChoice.installAtPtrOffset(&orion::battle::ChoiceHandler::CreateDynamaxChoices, 0x50);
+    setMegaPriority.installAtPtrOffset(&orion::battle::ChoiceHandler::SetChoicePriority, 0x50);
     gui::installHooks();
     installMegaEvolutionMod();
 }
