@@ -29,4 +29,6 @@ inline void installMegaEvolutionMod()
     alwaysDmax.installAtPtr(&orion::battle::ui::MoveUI::UpdateDmaxButton);
     onLoad.installAtPtr(&orion::battle::ui::MoveUI::Load);
     personalInfo.installAtPtr(&orion::personal::GetInfo);
+    createMegaChoice.installAtPtrOffset(&orion::battle::ChoiceHandler::CreateDynamaxChoices, 0x50);
+    setMegaPriority.installAtPtrOffset(&orion::battle::ChoiceHandler::SetChoicePriority, 0x50);
 }

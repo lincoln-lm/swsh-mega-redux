@@ -46,8 +46,6 @@ extern "C" void hkMain()
     // arbitrary function only called once at game init some time past nnMain
     onGameInit.installAtPtr(&orion::field::FieldManager::ctor);
     failedAllocateFix.installAtPtrOffset(&orion::filesystem::GFFile::ReadIntoBuffer, 0x3c);
-    createMegaChoice.installAtPtrOffset(&orion::battle::ChoiceHandler::CreateDynamaxChoices, 0x50);
-    setMegaPriority.installAtPtrOffset(&orion::battle::ChoiceHandler::SetChoicePriority, 0x50);
     gui::installHooks();
     installMegaEvolutionMod();
 }
