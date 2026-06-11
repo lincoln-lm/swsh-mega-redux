@@ -1,5 +1,7 @@
 #pragma once
 #include "hk/hook/InstrUtil.h"
+#include "hk/prim/traits/Function.h"
+
 namespace hook {
     struct CpuState {
         u64 X[31];
@@ -13,7 +15,14 @@ namespace hook {
         using Callback = void (*)(CpuState* state);
         static inline Callback callback;
         InlineHook(Fn func) { callback = +func; }
-        void installAtPtrOffset(ptr base, ptr offset) { hk::hook::writeBranchLinkAtPtr(base + offset, hook); }
+        void installAtPtr(ptr base) { hk::hook::writeBranchLinkAtPtr(base, hook); }
+        void installAtPtrOffset(ptr base, ptr offset) { installAtPtr(base + offset); }
+        template <hk::AnyFunctionPointerType T>
+        void installAtPtrOffset(T func, ptr offset)
+        {
+            using Traits = hk::util::FunctionTraits<T>;
+            return installAtPtrOffset(Traits::getAddress(func), offset);
+        }
         // TODO: uninstall
     private:
         __attribute__((naked)) static void hook()

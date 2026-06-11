@@ -63,12 +63,12 @@ inline HkTrampoline onUpdate = [](TrampolineStatic(), orion::battle::ui::BattleU
     }
 };
 
-inline HkTrampoline<void, orion::battle::ui::MoveUI*, void*> onLoad = hk::hook::trampoline([](orion::battle::ui::MoveUI* this_, void* p1) {
-    onLoad.orig(this_, p1);
+inline HkTrampoline onLoad = [](TrampolineStatic(), orion::battle::ui::MoveUI* this_, void* p1) -> void {
+    orig(this_, p1);
     // TODO: make not selectable
     sMegaButton->SetVisible(BASE_BUTTON_VISIBLE);
     sActiveMegaButton->SetVisible(ACTIVE_BUTTON_VISIBLE);
-});
+};
 
 inline HkTrampoline alwaysDmax
     = [](TrampolineStatic(), orion::battle::ui::MoveUI* this_, u8 enabled, u32 gauge) -> void { orig(this_, true, gauge); };

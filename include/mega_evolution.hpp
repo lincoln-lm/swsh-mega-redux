@@ -16,17 +16,17 @@
 
 inline void installMegaEvolutionMod()
 {
-    onButtonPress.installAtPtr(pun<void*>(&orion::battle::ui::MoveUI::HandleButtonPress));
-    onInitialize.installAtPtr(pun<void*>(&orion::battle::ui::MoveUI::Initialize));
-    onUpdate.installAtPtr(pun<void*>(&orion::battle::ui::BattleUI::OnUpdate));
-    changeForm.installAtPtr(pun<void*>(&orion::battle::ChoiceHandler::ExecuteChoice));
-    onSwitchIn.installAtPtrOffset(pun<ptr>(&orion::battle::EventHandler::OnSwitchIn), 0x104);
-    getMegaMon.installAtPtrOffset(pun<ptr>(&orion::battle::ui::BattleUI::CommitMoveChoice), 0x58);
-    onFormChangeSequenceQueue.installAtPtrOffset(pun<ptr>(&orion::battle::EffectSequenceHandler::QueueFormChangeSequence), 0x6c);
-    onBattleSetupInitialize.installAtPtr(pun<void*>(&orion::battle::BattleSetupSpec::Initialize));
-    startBattleBSequence.installAtPtr(pun<void*>(
-        static_cast<void (orion::battle::EffectSequenceHandler::*)(s32, bool)>(&orion::battle::EffectSequenceHandler::StartSequence)));
-    alwaysDmax.installAtPtr(pun<void*>(&orion::battle::ui::MoveUI::UpdateDmaxButton));
-    onLoad.installAtPtr(pun<void*>(&orion::battle::ui::MoveUI::Load));
-    personalInfo.installAtPtr(pun<void*>(&orion::personal::GetInfo));
+    onButtonPress.installAtPtr(&orion::battle::ui::MoveUI::HandleButtonPress);
+    onInitialize.installAtPtr(&orion::battle::ui::MoveUI::Initialize);
+    onUpdate.installAtPtr(&orion::battle::ui::BattleUI::OnUpdate);
+    changeForm.installAtPtr(&orion::battle::ChoiceHandler::ExecuteChoice);
+    onSwitchIn.installAtPtrOffset(&orion::battle::EventHandler::OnSwitchIn, 0x104);
+    getMegaMon.installAtPtrOffset(&orion::battle::ui::BattleUI::CommitMoveChoice, 0x58);
+    onFormChangeSequenceQueue.installAtPtrOffset(&orion::battle::EffectSequenceHandler::QueueFormChangeSequence, 0x6c);
+    onBattleSetupInitialize.installAtPtr(&orion::battle::BattleSetupSpec::Initialize);
+    startBattleBSequence.installAtPtr(
+        (static_cast<void (orion::battle::EffectSequenceHandler::*)(s32, bool)>(&orion::battle::EffectSequenceHandler::StartSequence)));
+    alwaysDmax.installAtPtr(&orion::battle::ui::MoveUI::UpdateDmaxButton);
+    onLoad.installAtPtr(&orion::battle::ui::MoveUI::Load);
+    personalInfo.installAtPtr(&orion::personal::GetInfo);
 }
