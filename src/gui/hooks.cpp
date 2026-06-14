@@ -68,7 +68,7 @@ namespace gui {
 
     void installHooks()
     {
-        finalizeDrawScreen.installAtPtr(pun<void*>(&orion::graphics::FinalizeHolder::FinalizeDrawScreen));
+        finalizeDrawScreen.installAtPtr(&orion::graphics::FinalizeHolder::FinalizeDrawScreen);
         nvnQueuePresentTextureTrampoline.installAtPtr(nvnBootstrapLoader("nvnQueuePresentTexture"));
         InputManager::installInputHooks();
         hk::gfx::DebugRenderer::instance()->installHooks();
