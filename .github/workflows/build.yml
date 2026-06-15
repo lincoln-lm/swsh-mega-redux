@@ -36,6 +36,12 @@ jobs:
           chmod +x $HOME/.local/bin/ultimate_tex_cli
           curl -sSL https://github.com/lincoln-lm/BntxFixer/releases/download/release/BntxFixer -o $HOME/.local/bin/BntxFixer
           chmod +x $HOME/.local/bin/BntxFixer
+          curl -sSL https://github.com/lincoln-lm/ShaderLibrary/releases/download/release/ShaderLibrary.CompileTool -o $HOME/.local/bin/ShaderLibrary.CompileTool
+          chmod +x $HOME/.local/bin/ShaderLibrary.CompileTool
+          curl -sSL https://github.com/lincoln-lm/EffectLibrary/releases/download/release/EffectShaderReplacer -o $HOME/.local/bin/EffectShaderReplacer
+          chmod +x $HOME/.local/bin/EffectShaderReplacer
+          curl -sSL https://github.com/lincoln-lm/uam/releases/download/release/uam -o $HOME/.local/bin/uam-nvn
+          chmod +x $HOME/.local/bin/uam-nvn
       - name: Build RomFS
         run: |
           pip install uv
