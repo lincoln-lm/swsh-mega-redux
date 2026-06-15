@@ -7,7 +7,8 @@
 #include "personal_info.hpp"
 
 constexpr u64 cFormChangeSequence = 7;
-constexpr u64 cPrimalReversionSequence = 65534;
+constexpr u64 cGroudonPrimalReversionSequence = 65533;
+constexpr u64 cKyogrePrimalReversionSequence = 65534;
 constexpr u64 cMegaEvolutionSequence = 65535;
 constexpr u64 cLowestCustomSequence = 10000;
 
@@ -23,7 +24,7 @@ inline auto onFormChangeSequenceQueue = hook::inlineHook([](hook::CpuState* stat
     }
     else if (personal_info::isPrimal(species, form))
     {
-        state->X[21] = cPrimalReversionSequence;
+        state->X[21] = species == 382 ? cKyogrePrimalReversionSequence : cGroudonPrimalReversionSequence;
     }
 });
 
@@ -34,9 +35,13 @@ inline HkTrampoline startBattleBSequence = [](TrampolineStatic(), orion::battle:
         return;
     }
     orion::filesystem::FilePathHandle path;
-    if (bseq_id == cPrimalReversionSequence)
+    if (bseq_id == cKyogrePrimalReversionSequence)
     {
-        path = orion::filesystem::FilePathHandle::FromPath("bin/battle/waza/sequence/primal_reversion.bseq");
+        path = orion::filesystem::FilePathHandle::FromPath("bin/battle/waza/sequence/primal_reversion_pm0382.bseq");
+    }
+    else if (bseq_id == cGroudonPrimalReversionSequence)
+    {
+        path = orion::filesystem::FilePathHandle::FromPath("bin/battle/waza/sequence/primal_reversion_pm0383.bseq");
     }
     else if (bseq_id == cMegaEvolutionSequence)
     {
