@@ -79,7 +79,7 @@ namespace personal_info {
         { Species::Kyogre, 1, 100, 150, 90, 180, 160, 90, Type::Water, Type::Water, Ability::PrimordialSea },
         { Species::Groudon, 1, 100, 180, 160, 150, 90, 90, Type::Ground, Type::Fire, Ability::DesolateLand },
         { Species::Rayquaza, 1, 105, 180, 100, 180, 100, 115, Type::Dragon, Type::Flying, Ability::DeltaStream },
-        { Species::Staraptor, 1, 85, 140, 100, 60, 90, 110, Type::Fighting, Type::Flying, Ability::Intimidate },
+        { Species::Staraptor, 1, 85, 140, 100, 60, 90, 110, Type::Fighting, Type::Flying, Ability::Contrary },
         { Species::Lopunny, 1, 65, 136, 94, 54, 96, 135, Type::Normal, Type::Fighting, Ability::Scrappy },
         { Species::Garchomp, 1, 108, 170, 115, 120, 95, 92, Type::Dragon, Type::Ground, Ability::SandForce },
         { Species::Garchomp, 2, 108, 130, 85, 141, 85, 151, Type::Dragon, Type::Dragon, Ability::SandForce },
@@ -106,7 +106,7 @@ namespace personal_info {
         { Species::Meowstic, 2, 74, 48, 76, 143, 101, 124, Type::Psychic, Type::Psychic, Ability::Trace },
         { Species::Malamar, 1, 86, 102, 88, 98, 120, 88, Type::Dark, Type::Psychic, Ability::Contrary },
         { Species::Barbaracle, 1, 72, 140, 130, 64, 106, 88, Type::Rock, Type::Fighting, Ability::ToughClaws },
-        { Species::Dragalge, 1, 65, 85, 105, 132, 163, 44, Type::Poison, Type::Dragon, Ability::Adaptability },
+        { Species::Dragalge, 1, 65, 85, 105, 132, 163, 44, Type::Poison, Type::Dragon, Ability::Regenerator },
         { Species::Hawlucha, 1, 78, 137, 100, 74, 93, 118, Type::Fighting, Type::Flying, Ability::NoGuard },
         { Species::Zygarde, 3, 216, 70, 91, 216, 85, 100, Type::Dragon, Type::Ground, Ability::PowerConstruct },
         { Species::Diancie, 1, 50, 160, 110, 160, 110, 110, Type::Rock, Type::Fairy, Ability::MagicBounce },
@@ -116,7 +116,7 @@ namespace personal_info {
         { Species::Magearna, 2, 80, 125, 115, 170, 115, 95, Type::Steel, Type::Fairy, Ability::SoulHeart },
         { Species::Magearna, 3, 80, 125, 115, 170, 115, 95, Type::Steel, Type::Fairy, Ability::SoulHeart },
         { Species::Zeraora, 1, 88, 157, 75, 147, 80, 153, Type::Electric, Type::Electric, Ability::VoltAbsorb },
-        { Species::Falinks, 1, 65, 135, 135, 70, 65, 100, Type::Fighting, Type::Fighting, Ability::BattleArmor },
+        { Species::Falinks, 1, 65, 135, 135, 70, 65, 100, Type::Fighting, Type::Fighting, Ability::Defiant },
     };
 
     // TODO: distinguish XYZ
