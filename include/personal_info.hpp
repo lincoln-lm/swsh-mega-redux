@@ -122,11 +122,23 @@ namespace personal_info {
     };
 
     // TODO: distinguish XYZ
+    // TODO: clean up ugly mega vs primal logic
+    inline const MegaEvolutionInfo* getMegaInfoForBaseForm(u16 species, u16 base_form)
+    {
+        for (const auto& info : cMegaEvolutionInfo)
+        {
+            if (info.species == (Species)species && std::ranges::contains(info.fromForms, base_form))
+            {
+                return &info;
+            }
+        }
+        return nullptr;
+    }
     inline const MegaEvolutionInfo* getMegaInfo(u16 species, u16 form)
     {
         for (const auto& info : cMegaEvolutionInfo)
         {
-            if (info.species == (Species)species && std::ranges::contains(info.fromForms, form))
+            if (info.species == (Species)species && info.form == form)
             {
                 return &info;
             }
@@ -162,20 +174,19 @@ namespace personal_info {
 
     inline const bool isMega(u16 species, u16 form)
     {
-        auto megaInfo = getAllMegasForSpecies(species);
-        return !isPrimal(species, form) && std::ranges::any_of(megaInfo, [form](const auto& info) { return info->form == form; });
+        return !isPrimal(species, form) && getMegaInfo(species, form) != nullptr;
     }
 
     inline const bool canMegaEvolve(u16 species, u16 form, u16 item)
     {
         (void)item; // TODO
-        auto megaInfo = getMegaInfo(species, form);
-        return megaInfo != nullptr && !speciesCanPrimalRevert(species);
+        return getMegaInfoForBaseForm(species, form) != nullptr && !speciesCanPrimalRevert(species);
     }
 }
 
 inline HkTrampoline personalInfo = [](TrampolineStatic(), orion::personal::PersonalInfo* out, u16 species, u16 form) -> void {
-    auto megaInfo = personal_info::getMegaInfo(species, form);
+    auto megaInfo = personal_info::getMegaInfoForBaseForm(species, form);
+    // is a base form that can mega
     if (megaInfo != nullptr)
     {
         auto allMegas = personal_info::getAllMegasForSpecies(species);
@@ -183,6 +194,14 @@ inline HkTrampoline personalInfo = [](TrampolineStatic(), orion::personal::Perso
         out->body.formCount += allMegas.size();
         return;
     }
+
+    if (!personal_info::isMega(species, form) && !personal_info::isPrimal(species, form))
+    {
+        orig(out, species, form);
+        return;
+    }
+
+    megaInfo = personal_info::getMegaInfo(species, form);
     orig(out, species, 0);
     if (!out->body.presentInGame)
     {

@@ -24,7 +24,7 @@ inline void triggerMega(orion::battle::BattleHandler* battle_handler, orion::bat
                         orion::battle::BattlePartyMember* b)
 {
     // TODO: XYZ
-    auto mega_info = personal_info::getMegaInfo(b->species, b->rawPokeInfo->GetForm());
+    auto mega_info = personal_info::getMegaInfoForBaseForm(b->species, b->rawPokeInfo->GetForm());
     battle_handler->FormChange(b->id, mega_info->form, true);
     u16 new_ability = b->rawPokeInfo->GetAbility();
     battle_handler->FormChangeDisplay(b->id);
