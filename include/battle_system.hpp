@@ -1,5 +1,6 @@
 #pragma once
 #include "hk/hook/Trampoline.h"
+#include "hk/util/Random.h"
 #include "hook/InlineHook.hpp"
 #include "orion/battle/BattleHandler.hpp"
 #include "orion/battle/BattleSetupSpec.hpp"
@@ -24,7 +25,8 @@ inline void triggerMega(orion::battle::BattleHandler* battle_handler, orion::bat
                         orion::battle::BattlePartyMember* b)
 {
     // TODO: XYZ
-    auto mega_info = personal_info::getMegaInfoForBaseForm(b->species, b->rawPokeInfo->GetForm());
+    auto all_mega_info = personal_info::getAllMegasForBaseForm(b->species, b->rawPokeInfo->GetForm());
+    auto mega_info = all_mega_info.list[hk::util::getRandomU64() % all_mega_info.count()];
     battle_handler->FormChange(b->id, mega_info->form, true);
     u16 new_ability = b->rawPokeInfo->GetAbility();
     battle_handler->FormChangeDisplay(b->id);
