@@ -1,4 +1,4 @@
-@game:shield
+@game:shield,sword
 _ZN5orion5field8PokeInfo10GetSpeciesEv = 0x7783b0
 _ZN5orion5field8PokeInfo7GetFormEv = 0x7783c0
 _ZN5orion5field8PokeInfo9GetNatureEv = 0x77cd00

@@ -1,4 +1,4 @@
-@game:shield
+@game:shield,sword
 _ZN5orion9evolution18sEvolutionSetCacheE = 0x28f5b28
 _ZN5orion9evolution19sActiveEvolutionSetE = 0x28f5b08
 _ZN5orion9evolution17FetchEvolutionSetEjj = 0x764d20

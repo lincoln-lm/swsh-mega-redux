@@ -1,5 +1,12 @@
-@game:shield
+@game:shield,sword
 _ZN5orion5field12FieldManager9sInstanceE = 0x2955208
+
+@game:shield
 _ZN5orion5field12FieldManager4ctorEPS1_iPvm = 0xf112b0
 _ZN5orion5field12FieldManager17UpdateLazyObjectsEv = 0xcbb250
 _ZN5orion5field12FieldManager21RequestObjectDeletionEPm = 0xd774e0
+
+@game:sword
+_ZN5orion5field12FieldManager4ctorEPS1_iPvm = 0xf11280
+_ZN5orion5field12FieldManager17UpdateLazyObjectsEv = 0xcbb220
+_ZN5orion5field12FieldManager21RequestObjectDeletionEPm = 0xd774b0

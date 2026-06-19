@@ -1,5 +1,10 @@
-@game:shield
+@game:shield,sword
 amx_Callback = 0x66cfe0
 
+@game:shield
 _ZN5orion4pawn10ABKeyWait_EP6tagAMXPm = 0x1471900
 _ZN5orion4pawn12IsMsgWinEnd_EP6tagAMXPm = 0x14b5730
+
+@game:sword
+_ZN5orion4pawn10ABKeyWait_EP6tagAMXPm = 0x14718d0
+_ZN5orion4pawn12IsMsgWinEnd_EP6tagAMXPm = 0x14b5700

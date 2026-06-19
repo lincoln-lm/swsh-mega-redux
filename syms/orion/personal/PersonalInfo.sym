@@ -1,4 +1,4 @@
-@game:shield
+@game:shield,sword
 _ZN5orion8personal19sCachedPersonalInfoE = 0x28f5a08
 _ZN5orion8personal7GetInfoEPNS0_12PersonalInfoEtt = 0x77f540
 _ZN5orion8personal9CacheInfoEtt = 0x7649f0

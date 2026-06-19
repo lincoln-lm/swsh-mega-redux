@@ -1,2 +1,5 @@
 @game:shield
 _ZN5orion5field9encounter20GiftEncounterManager7GetGiftEPm = 0xe4a370
+
+@game:sword
+_ZN5orion5field9encounter20GiftEncounterManager7GetGiftEPm = 0xe4a340

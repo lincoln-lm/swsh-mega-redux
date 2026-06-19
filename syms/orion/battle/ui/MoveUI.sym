@@ -1,9 +1,17 @@
-@game:shield
+@game:shield,sword
 _ZN5orion6battle2ui6MoveUI10InitializeEv = 0x9366d0
 _ZN5orion6battle2ui6MoveUI17HandleButtonPressEmm = 0x9373e0
+_ZN5orion6battle2ui6MoveUI4LoadEPv = 0x937620
+_ZN5orion6battle2ui6MoveUI16UpdateDmaxButtonEbj = 0x937980
+
+@game:shield
 _ZN5orion6battle2ui6MoveUI6Button10SetVisibleEb = 0x15b2e30
 _ZN5orion6battle2ui6MoveUI6Button9SetActiveEb = 0x15b2e00
 _ZN5orion6battle2ui6MoveUI9Container13SetSelectableEPmb = 0x15b8260
 _ZN5orion6battle2ui6MoveUI6Layout9GetButtonEPm = 0xefda70
-_ZN5orion6battle2ui6MoveUI4LoadEPv = 0x937620
-_ZN5orion6battle2ui6MoveUI16UpdateDmaxButtonEbj = 0x937980
+
+@game:sword
+_ZN5orion6battle2ui6MoveUI6Button10SetVisibleEb = 0x15b2da0
+_ZN5orion6battle2ui6MoveUI6Button9SetActiveEb = 0x15b2d70
+_ZN5orion6battle2ui6MoveUI9Container13SetSelectableEPmb = 0x15b81d0
+_ZN5orion6battle2ui6MoveUI6Layout9GetButtonEPm = 0xefda40

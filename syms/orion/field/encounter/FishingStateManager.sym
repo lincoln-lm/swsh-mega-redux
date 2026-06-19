@@ -1,2 +1,5 @@
 @game:shield
 _ZN5orion5field9encounter19FishingStateManager6UpdateEv = 0xda4750
+
+@game:sword
+_ZN5orion5field9encounter19FishingStateManager6UpdateEv = 0xda4720

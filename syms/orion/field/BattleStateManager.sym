@@ -1,2 +1,5 @@
 @game:shield
 _ZN5orion5field18BattleStateManager6UpdateEPv = 0xde65e0
+
+@game:sword
+_ZN5orion5field18BattleStateManager6UpdateEPv = 0xde65b0

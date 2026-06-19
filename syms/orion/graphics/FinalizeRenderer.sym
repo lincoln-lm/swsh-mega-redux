@@ -1,3 +1,8 @@
+@game:shield,sword
+_ZN5orion8graphics24ActiveCommandBufferIndexE = 0x28f3120
+
 @game:shield
 _ZN5orion8graphics14FinalizeHolder18FinalizeDrawScreenEv = 0xf692e0
-_ZN5orion8graphics24ActiveCommandBufferIndexE = 0x28f3120
+
+@game:sword
+_ZN5orion8graphics14FinalizeHolder18FinalizeDrawScreenEv = 0xf692b0

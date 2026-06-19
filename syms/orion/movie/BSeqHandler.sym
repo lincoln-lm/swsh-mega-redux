@@ -1,2 +1,5 @@
 @game:shield
 _ZN5orion5movie11BSeqHandler11DeserializeEm = 0x14d3960
+
+@game:sword
+_ZN5orion5movie11BSeqHandler11DeserializeEm = 0x14d3930

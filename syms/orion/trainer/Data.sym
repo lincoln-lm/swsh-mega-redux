@@ -1,2 +1,5 @@
 @game:shield
 _ZN5orion7trainer18LoadTrainerPokemonEPNS0_14TrainerPokemonEPvm = 0x1522b30
+
+@game:sword
+_ZN5orion7trainer18LoadTrainerPokemonEPNS0_14TrainerPokemonEPvm = 0x1522b00

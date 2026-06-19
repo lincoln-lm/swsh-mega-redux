@@ -1,4 +1,4 @@
-@game:shield
+@game:shield,sword
 _ZN5orion6battle11BattleParty11SwapMembersEmm = 0x814350
 _ZN5orion6battle11BattleParty3GetEm = 0x814330
 _ZN5orion6battle12PartyManager12RestorePartyEPPNS_5field5PartyEh = 0x7df460

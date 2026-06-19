@@ -2,3 +2,8 @@
 _ZN5orion5field10AreaLoader20InitializeAreaCachesEPv = 0xd0b3c0
 _ZN5orion5field10AreaLoader17LoadAreaResourcesEPv = 0xd1b870
 _ZN5orion5field10AreaLoader12PlaceObjectsEPm = 0xd18d30
+
+@game:sword
+_ZN5orion5field10AreaLoader20InitializeAreaCachesEPv = 0xd0b390
+_ZN5orion5field10AreaLoader17LoadAreaResourcesEPv = 0xd1b840
+_ZN5orion5field10AreaLoader12PlaceObjectsEPm = 0xd18d00

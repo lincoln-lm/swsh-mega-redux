@@ -1,2 +1,5 @@
 @game:shield
 _ZN5orion4shop11ShopManager10SelectShopEPmh = 0x14e2f50
+
+@game:sword
+_ZN5orion4shop11ShopManager10SelectShopEPmh = 0x14e2f20
