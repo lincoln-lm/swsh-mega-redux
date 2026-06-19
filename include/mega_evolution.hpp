@@ -23,6 +23,7 @@ inline void installMegaEvolutionMod()
     onSwitchIn.installAtPtrOffset(&orion::battle::EventHandler::OnSwitchIn, 0x104);
     getMegaMon.installAtPtrOffset(&orion::battle::ui::BattleUI::CommitMoveChoice, 0x58);
     onFormChangeSequenceQueue.installAtPtrOffset(&orion::battle::EffectSequenceHandler::QueueFormChangeSequence, 0x6c);
+    onFormChangeSequenceQueue.installAtPtrOffset(&orion::battle::EffectSequenceHandler::QueueFormChangeSequence, 0xc8);
     onBattleSetupInitialize.installAtPtr(&orion::battle::BattleSetupSpec::Initialize);
     startBattleBSequence.installAtPtr(
         (static_cast<void (orion::battle::EffectSequenceHandler::*)(s32, bool)>(&orion::battle::EffectSequenceHandler::StartSequence)));
