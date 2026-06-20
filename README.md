@@ -5,7 +5,13 @@
 
 **swsh-mega-redux** is a work-in-progress mod that aims to bring Mega Evolution to Sword & Shield.
 
-<!-- video -->
+https://github.com/user-attachments/assets/3930542a-cabc-4b0f-8853-01e4c5bfbe74
+
+## Notes
+- Not all Pokémon and abilities are currently implemented
+- Expect bugs and feel free to [report them here](https://github.com/lincoln-lm/swsh-mega-redux/issues)
+- Pokémon with multiple megas currently select one at random
+- Megas do not currently require stones (nor Rayquaza w/ Dragon Ascent) but Primals require their held item
 
 ## Installation
 
