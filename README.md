@@ -45,3 +45,4 @@ and additionally benefits from the following:
 - [pkNX](https://github.com/kwsch/pkNX)
 - [pkZukan](https://github.com/pkZukan)
 - [Switch-Toolbox](https://github.com/KillzXGaming/Switch-Toolbox) (and various libraries by [KillzXGaming](https://github.com/KillzXGaming))
+- [Pokemon-Switch-Model-Importer-Blender](https://github.com/ChicoEevee/Pokemon-Switch-Model-Importer-Blender)
