@@ -1,13 +1,15 @@
 # Sword & Shield Mega Redux
 
 [![](https://img.shields.io/badge/Download-blue)](https://github.com/lincoln-lm/swsh-mega-redux/releases)
-[![](https://img.shields.io/badge/Asset_Repository-purple)](https://github.com/lincoln-lm/swsh-mega-redux-romfs)
+[![](https://img.shields.io/badge/Asset_Repository-violet)](https://github.com/lincoln-lm/swsh-mega-redux-romfs)
+[![](https://img.shields.io/badge/Discord-7289da)](https://discord.gg/79RukKVtSs)
 
 **swsh-mega-redux** is a work-in-progress mod that aims to bring Mega Evolution to Sword & Shield.
 
-https://github.com/user-attachments/assets/3930542a-cabc-4b0f-8853-01e4c5bfbe74
+<https://github.com/user-attachments/assets/3930542a-cabc-4b0f-8853-01e4c5bfbe74>
 
 ## Notes
+
 - Not all Pokémon and abilities are currently implemented
 - Expect bugs and feel free to [report them here](https://github.com/lincoln-lm/swsh-mega-redux/issues)
 - Pokémon with multiple megas currently select one at random
