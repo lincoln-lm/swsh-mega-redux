@@ -6,10 +6,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Install SSH Key
-        uses: webfactory/ssh-agent@v0.8.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Checkout
         uses: actions/checkout@v3
         with:
