@@ -19,6 +19,8 @@ namespace orion::battle {
         u16 unk2;
         u8 level;
         u8 id;
+        u8 unk3[9];
+        u8 baseForm : 5;
         // ...
     } __attribute__((packed));
     struct BattleParty {
