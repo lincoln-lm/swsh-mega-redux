@@ -26,6 +26,7 @@ namespace personal_info {
 
     // TODO: move to romfs?
     // TODO: mega sol, dragonize
+    // clang-format off
     inline const std::array<MegaEvolutionInfo, 92> cMegaEvolutionInfo = {
         Species::Venusaur,     1, { 0 },    80,  100, 123, 122, 120, 80,  Type::Grass,    Type::Poison,   Ability::ThickFat,
         Species::Charizard,    1, { 0 },    78,  130, 111, 130, 85,  100, Type::Fire,     Type::Dragon,   Ability::ToughClaws,
@@ -110,7 +111,7 @@ namespace personal_info {
         Species::Barbaracle,   1, { 0 },    72,  140, 130, 64,  106, 88,  Type::Rock,     Type::Fighting, Ability::ToughClaws,
         Species::Dragalge,     1, { 0 },    65,  85,  105, 132, 163, 44,  Type::Poison,   Type::Dragon,   Ability::Regenerator,
         Species::Hawlucha,     1, { 0 },    78,  137, 100, 74,  93,  118, Type::Fighting, Type::Flying,   Ability::NoGuard,
-        Species::Zygarde,      3, { 0 },    216, 70,  91,  216, 85,  100, Type::Dragon,   Type::Ground,   Ability::PowerConstruct,
+        Species::Zygarde,      5, { 0, 1, 2, 3, 4 },    216, 70,  91,  216, 85,  100, Type::Dragon,   Type::Ground,   Ability::PowerConstruct,
         Species::Diancie,      1, { 0 },    50,  160, 110, 160, 110, 110, Type::Rock,     Type::Fairy,    Ability::MagicBounce,
         Species::Crabominable, 1, { 0 },    97,  157, 122, 62,  107, 33,  Type::Fighting, Type::Ice,      Ability::IronFist,
         Species::Golisopod,    1, { 0 },    75,  150, 175, 70,  120, 40,  Type::Bug,      Type::Steel,    Ability::EmergencyExit,
@@ -120,6 +121,7 @@ namespace personal_info {
         Species::Zeraora,      1, { 0 },    88,  157, 75,  147, 80,  153, Type::Electric, Type::Electric, Ability::VoltAbsorb,
         Species::Falinks,      1, { 0 },    65,  135, 135, 70,  65,  100, Type::Fighting, Type::Fighting, Ability::Defiant,
     };
+    // clang-format on
 
     struct AllMegaInfo {
         const MegaEvolutionInfo* list[2] = { nullptr, nullptr };
