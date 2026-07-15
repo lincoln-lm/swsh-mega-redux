@@ -17,6 +17,7 @@ namespace orion::filesystem {
         ::size bufferAlignment;
         void WriteToDisk();
         void ReadIntoBuffer();
+        void ReadIntoLargeBuffer();
     };
     static_assert(offsetof(GFFile, filePath) == 0x68 + 0x8);
     static_assert(offsetof(GFFile, fileSize) == 0x180);

@@ -1,4 +1,5 @@
 @game:shield,sword
 _ZN5orion10filesystem6GFFile11WriteToDiskEv = 0x5e7e20
 _ZN5orion10filesystem6GFFile14ReadIntoBufferEv = 0x5dd780
+_ZN5orion10filesystem6GFFile19ReadIntoLargeBufferEv = 0x5fac50
 _ZN5orion10filesystem14FilePathHandle8FromPathEPKc = 0x7801a0

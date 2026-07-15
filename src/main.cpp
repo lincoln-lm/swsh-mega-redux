@@ -2,7 +2,6 @@
 #include "gui/hooks.hpp"
 #include "hk/hook/Trampoline.h"
 #include "hk/mem/BssHeap.h"
-#include "hook/MainOffset.hpp"
 #include "mega_evolution.hpp"
 #include "orion/field/FieldManager.hpp"
 #include "orion/filesystem/GFFile.hpp"
@@ -26,10 +25,28 @@ inline auto failedAllocateFix = hook::inlineHook([](hook::CpuState* state) {
 
     if (state->X[0] == 0)
     {
+        hk::diag::logLine("failed allocate 1, fileAllocator = %p, activeAllocator = %p, allocator = %p", gffile->fileAllocator,
+                          gffile->activeAllocator, gffile->allocator);
         // later: gffile->activeAllocator = x20
         state->X[20] = pun<u64>(gffile->allocator);
         gffile->fileAllocator = gffile->allocator;
         state->X[0] = pun<u64>(gffile->allocator->Alloc(state->X[21], 0x10));
+    }
+});
+
+inline auto failedAllocateFix2 = hook::inlineHook([](hook::CpuState* state) {
+    auto gffile = pun<orion::filesystem::GFFile*>(state->X[19]);
+    // original instruction
+    state->X[1] = *pun<u64*>(state->X[22] + 0x58);
+
+    if (state->X[0] == 0)
+    {
+        hk::diag::logLine("failed allocate 2, fileAllocator = %p, activeAllocator = %p, allocator = %p", gffile->fileAllocator,
+                          gffile->activeAllocator, gffile->allocator);
+        // later: gffile->activeAllocator = x20
+        state->X[20] = pun<u64>(gffile->allocator);
+        gffile->fileAllocator = gffile->allocator;
+        state->X[0] = pun<u64>(gffile->allocator->Alloc(state->X[21], 0x1000));
     }
 });
 
@@ -46,6 +63,7 @@ extern "C" void hkMain()
     // arbitrary function only called once at game init some time past nnMain
     onGameInit.installAtPtr(&orion::field::FieldManager::ctor);
     failedAllocateFix.installAtPtrOffset(&orion::filesystem::GFFile::ReadIntoBuffer, 0x3c);
+    failedAllocateFix2.installAtPtrOffset(&orion::filesystem::GFFile::ReadIntoLargeBuffer, 0x40);
     gui::installHooks();
     installMegaEvolutionMod();
 }
