@@ -7,11 +7,14 @@
 #include "orion/battle/EffectSequenceHandler.hpp"
 #include "orion/battle/ui/BattleUI.hpp"
 #include "orion/battle/ui/MoveUI.hpp"
+#include "orion/field/EventManager.hpp"
+#include "orion/field/FieldObject.hpp"
 #include "orion/personal/PersonalInfo.hpp"
 
 #include "battle_system.hpp"
 #include "battle_ui.hpp"
 #include "effect_sequence.hpp"
+#include "overworld.hpp"
 #include "personal_info.hpp"
 
 inline void installMegaEvolutionMod()
@@ -32,4 +35,7 @@ inline void installMegaEvolutionMod()
     personalInfo.installAtPtr(&orion::personal::GetInfo);
     createMegaChoice.installAtPtrOffset(&orion::battle::ChoiceHandler::CreateDynamaxChoices, 0x50);
     setMegaPriority.installAtPtrOffset(&orion::battle::ChoiceHandler::SetChoicePriority, 0x50);
+    onFollowingPokemonInteract.installAtPtrOffset(&orion::field::EventManager::OnInteract, 0x1408);
+    onEncountObjectTick.installAtPtr(orion::field::virtualFunctionAddress(&orion::field::EncountObject::OnTick));
+    replaceFollowingWithMega.installAtPtrOffset(&orion::field::GimmickEncountSpawner::Spawn, 0x2ac);
 }
