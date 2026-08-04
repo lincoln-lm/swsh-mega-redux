@@ -4,5 +4,6 @@
 namespace orion::battle {
     struct ActionHandler {
         // TODO: ...
+        void PostAbilityChange(u8 pokemonId);
     };
 }

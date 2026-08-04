@@ -35,6 +35,7 @@ inline void triggerMega(orion::battle::BattleHandler* battle_handler, orion::bat
     battle_handler->ShowAbilityChange(b->id, new_ability);
     battle_handler->ChangeAbility(b->id, new_ability);
     battle_handler->RegisterAbilityHandlers(action_handler, b);
+    action_handler->PostAbilityChange(b->id);
     battle_handler->HideAbility(b->id);
 }
 
