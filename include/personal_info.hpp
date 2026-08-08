@@ -25,7 +25,7 @@ namespace personal_info {
     };
 
     // TODO: move to romfs?
-    // TODO: mega sol, dragonize
+    // TODO: other mega abilities
     // clang-format off
     inline const std::array<MegaEvolutionInfo, 92> cMegaEvolutionInfo = {
         Species::Venusaur,     1, { 0 },    80,  100, 123, 122, 120, 80,  Type::Grass,    Type::Poison,   Ability::ThickFat,
@@ -50,7 +50,7 @@ namespace personal_info {
         Species::Mewtwo,       1, { 0 },    106, 190, 100, 154, 100, 130, Type::Psychic,  Type::Fighting, Ability::Steadfast,
         Species::Mewtwo,       2, { 0 },    106, 150, 70,  194, 120, 140, Type::Psychic,  Type::Psychic,  Ability::Insomnia,
         Species::Meganium,     1, { 0 },    80,  92,  115, 143, 115, 80,  Type::Grass,    Type::Fairy,    Ability::Overgrow,
-        Species::Feraligatr,   1, { 0 },    85,  160, 125, 89,  93,  78,  Type::Water,    Type::Dragon,   Ability::Torrent,
+        Species::Feraligatr,   1, { 0 },    85,  160, 125, 89,  93,  78,  Type::Water,    Type::Dragon,   Ability::Dragonize,
         Species::Ampharos,     1, { 0 },    90,  95,  105, 165, 110, 45,  Type::Electric, Type::Dragon,   Ability::MoldBreaker,
         Species::Steelix,      1, { 0 },    75,  125, 230, 55,  95,  30,  Type::Steel,    Type::Ground,   Ability::SandForce,
         Species::Scizor,       1, { 0 },    70,  150, 140, 65,  100, 75,  Type::Bug,      Type::Steel,    Ability::Technician,

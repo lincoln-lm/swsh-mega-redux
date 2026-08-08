@@ -38,4 +38,5 @@ inline void installMegaEvolutionMod()
     onFollowingPokemonInteract.installAtPtrOffset(&orion::field::EventManager::OnInteract, 0x1408);
     onEncountObjectTick.installAtPtr(orion::field::virtualFunctionAddress(&orion::field::EncountObject::OnTick));
     replaceFollowingWithMega.installAtPtrOffset(&orion::field::GimmickEncountSpawner::Spawn, 0x2ac);
+    enableCustomAbilityCallbacks.installAtPtr(&orion::battle::CallbackHandler::EnableAbilityCallback);
 }

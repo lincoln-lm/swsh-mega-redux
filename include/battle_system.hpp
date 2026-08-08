@@ -1,12 +1,16 @@
 #pragma once
+#include "enum/Move.hpp"
+#include "enum/Type.hpp"
 #include "hk/hook/Trampoline.h"
 #include "hk/util/Random.h"
 #include "hook/InlineHook.hpp"
 #include "orion/battle/BattleHandler.hpp"
 #include "orion/battle/BattleSetupSpec.hpp"
+#include "orion/battle/CallbackHandler.hpp"
 #include "orion/battle/ChoiceHandler.hpp"
 #include "orion/battle/Party.hpp"
 #include "personal_info.hpp"
+#include <array>
 #include <utility>
 
 inline bool sHasMegaEvolved = false;
@@ -99,3 +103,82 @@ inline auto onSwitchIn = hook::inlineHook([](hook::CpuState* state) {
         triggerMega(event_handler->battleHandler, event_handler->actionHandler, b);
     }
 });
+
+#define CUSTOM_ABILITY(id, ...)                                                                                                            \
+    [] {                                                                                                                                   \
+        static const orion::battle::Callback callbacks[] = { __VA_ARGS__ };                                                                \
+        return orion::battle::CallbackList { id, 0, [](orion::battle::CallbackListInfo& info) {                                            \
+            info.length = sizeof(callbacks) / sizeof(callbacks[0]);                                                                        \
+            return callbacks;                                                                                                              \
+        } };                                                                                                                               \
+    }()
+
+inline auto customAbilityCallbackLists = std::to_array<orion::battle::CallbackList>(
+    { CUSTOM_ABILITY((u32)orion_enum::Ability::Dragonize,
+                     { orion::battle::CallbackType::MODIFY_MOVE_TYPE,
+                       [](orion::battle::CallbackContext* context, u8 targetId) {
+    context->SetTempVar(0, 0);
+    if (context->GetVar(orion::battle::BattleVariable::GENERIC_ID) == targetId)
+    {
+        if (context->GetVar(orion::battle::BattleVariable::MOVE_TYPE) == (u32)orion_enum::Type::Normal)
+        {
+            context->SetTempVar(0, context->SetVar(orion::battle::BattleVariable::MOVE_TYPE, (u32)orion_enum::Type::Dragon));
+        }
+    }
+} },
+                     { orion::battle::CallbackType::MODIFY_MOVE_DAMAGE,
+                       [](orion::battle::CallbackContext* context, u8 targetId) {
+    if (context->GetVar(orion::battle::BattleVariable::MOVE_USER_ID) == targetId)
+    {
+        if (context->GetVar(orion::battle::BattleVariable::MOVE_TYPE) == (u32)orion_enum::Type::Dragon)
+        {
+            if (context->GetTempVar(0))
+            {
+                context->MultiplyFixedVar(orion::battle::BattleVariable::MOVE_DAMAGE_MULTIPLIER, orion::battle::floatToFixed(1.2f));
+            }
+        }
+    }
+} },
+                     { orion::battle::CallbackType::AFTER_MOVE_CLEANUP,
+                       [](orion::battle::CallbackContext* context, u8 targetId) { context->SetTempVar(0, 0); } },
+                     { orion::battle::CallbackType::MODIFY_MAX_MOVE_TYPE, [](orion::battle::CallbackContext* context, u8 targetId) {
+    if (context->GetVar(orion::battle::BattleVariable::GENERIC_ID) == targetId)
+    {
+        if (context->GetVar(orion::battle::BattleVariable::MOVE_ID) == (u32)orion_enum::Move::MaxStrike)
+        {
+            context->SetVar(orion::battle::BattleVariable::MOVE_ID, (u32)orion_enum::Move::MaxWyrmwind);
+        }
+    }
+} }) });
+
+inline HkTrampoline enableCustomAbilityCallbacks
+    = [](TrampolineStatic(), orion::battle::CallbackHandler* this_, orion::battle::BattlePartyMember* target, s32 abilityId) -> void {
+    int vanilla_ability_count = sizeof(this_->abilityCallbackLists) / sizeof(this_->abilityCallbackLists[0]);
+    orion::battle::CallbackListInfo callbackListInfo;
+    const orion::battle::Callback* callbacks;
+    auto custom_ability = std::ranges::find_if(customAbilityCallbackLists,
+                                               [abilityId](const orion::battle::CallbackList& list) { return list.id == abilityId; });
+    if (custom_ability != customAbilityCallbackLists.end())
+    {
+        callbacks = custom_ability->func(callbackListInfo);
+    }
+    else
+    {
+        for (int i = 0; i < vanilla_ability_count; i++)
+        {
+            auto callback_list = this_->abilityCallbackLists[i];
+            if (callback_list.id == abilityId)
+            {
+                callbacks = callback_list.func(callbackListInfo);
+                break;
+            }
+            if (i == vanilla_ability_count - 1)
+            {
+                return;
+            }
+        }
+    }
+    target->GetParam(orion::battle::BattlePartyMember::Param::SPEED);
+    this_->AddCallbacks(4, abilityId, 7, target->GetParam(orion::battle::BattlePartyMember::Param::SPEED) & 0xFFFF, target->id, callbacks,
+                        callbackListInfo.length);
+};

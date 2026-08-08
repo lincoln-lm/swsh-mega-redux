@@ -6,6 +6,11 @@
 
 namespace orion::battle {
     struct BattlePartyMember {
+        enum class Param : s32
+        {
+            SPEED = 12
+        };
+        s32 GetParam(Param param);
         // base object
         u8 unk0[0x60];
         field::PokeInfo* rawPokeInfo;

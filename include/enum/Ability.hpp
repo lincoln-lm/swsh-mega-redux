@@ -315,6 +315,14 @@ namespace orion_enum {
         TeraShell,
         TeraformZero,
         PoisonPuppeteer,
+        PiercingDrill,
+        Dragonize,
+        Eelevate,
+        Unk314,
+        MegaSol,
+        FireMane,
+        Unk316,
+        SpicySpray,
         MAX_COUNT,
     };
 }
