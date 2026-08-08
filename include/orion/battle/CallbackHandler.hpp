@@ -3,14 +3,6 @@
 #include "orion/battle/Party.hpp"
 
 namespace orion::battle {
-    inline u32 floatToFixed(f32 value)
-    {
-        return (u32)(value * (1 << 12));
-    }
-    inline f32 fixedToFloat(u32 value)
-    {
-        return (f32)value / (1 << 12);
-    }
     enum class BattleVariable : u16
     {
         GENERIC_ID = 0x2,
@@ -18,19 +10,27 @@ namespace orion::battle {
         MOVE_ID = 0x12,
         MOVE_TYPE = 0x16,
         MOVE_DAMAGE_MULTIPLIER = 0x34,
+        CURRENT_WEATHER = 0x3e,
+    };
+    struct InternalContext {
+        // ...
+        u32 GetVar(BattleVariable var);
     };
     struct CallbackContext {
+        u8 unk0[0x30];
+        InternalContext* internalContext;
         // ...
         void SetTempVar(u8 index, u32 value);
         u32 GetTempVar(u8 index);
         bool SetVar(BattleVariable var, u32 value);
         u32 GetVar(BattleVariable var);
         void MultiplyFixedVar(BattleVariable var, u32 value);
-    };
+    } __attribute__((packed));
     enum class CallbackType : u64
     {
         MODIFY_MOVE_TYPE = 42,
         MODIFY_MOVE_DAMAGE = 72,
+        MODIFY_EFFECTIVE_WEATHER = 153,
         AFTER_MOVE_CLEANUP = 171,
         MODIFY_MAX_MOVE_TYPE = 228
     };

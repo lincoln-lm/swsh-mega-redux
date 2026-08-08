@@ -49,7 +49,7 @@ namespace personal_info {
         Species::Dragonite,    1, { 0 },    91,  124, 115, 145, 125, 100, Type::Dragon,   Type::Flying,   Ability::Multiscale,
         Species::Mewtwo,       1, { 0 },    106, 190, 100, 154, 100, 130, Type::Psychic,  Type::Fighting, Ability::Steadfast,
         Species::Mewtwo,       2, { 0 },    106, 150, 70,  194, 120, 140, Type::Psychic,  Type::Psychic,  Ability::Insomnia,
-        Species::Meganium,     1, { 0 },    80,  92,  115, 143, 115, 80,  Type::Grass,    Type::Fairy,    Ability::Overgrow,
+        Species::Meganium,     1, { 0 },    80,  92,  115, 143, 115, 80,  Type::Grass,    Type::Fairy,    Ability::MegaSol,
         Species::Feraligatr,   1, { 0 },    85,  160, 125, 89,  93,  78,  Type::Water,    Type::Dragon,   Ability::Dragonize,
         Species::Ampharos,     1, { 0 },    90,  95,  105, 165, 110, 45,  Type::Electric, Type::Dragon,   Ability::MoldBreaker,
         Species::Steelix,      1, { 0 },    75,  125, 230, 55,  95,  30,  Type::Steel,    Type::Ground,   Ability::SandForce,

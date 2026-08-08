@@ -2,6 +2,7 @@
 
 #include "hk/hook/Trampoline.h"
 #include "hook/InlineHook.hpp"
+#include "orion/battle/ActionHandler.hpp"
 #include "orion/battle/BattleSetupSpec.hpp"
 #include "orion/battle/ChoiceHandler.hpp"
 #include "orion/battle/EffectSequenceHandler.hpp"
@@ -39,4 +40,5 @@ inline void installMegaEvolutionMod()
     onEncountObjectTick.installAtPtr(orion::field::virtualFunctionAddress(&orion::field::EncountObject::OnTick));
     replaceFollowingWithMega.installAtPtrOffset(&orion::field::GimmickEncountSpawner::Spawn, 0x2ac);
     enableCustomAbilityCallbacks.installAtPtr(&orion::battle::CallbackHandler::EnableAbilityCallback);
+    effectiveWeatherPatch.installAtPtrOffset(&orion::battle::ActionHandler::GetEffectiveWeather, 0x70);
 }

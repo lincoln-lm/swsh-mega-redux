@@ -4,11 +4,13 @@
 #include "hk/hook/Trampoline.h"
 #include "hk/util/Random.h"
 #include "hook/InlineHook.hpp"
+#include "orion/battle/ActionHandler.hpp"
 #include "orion/battle/BattleHandler.hpp"
 #include "orion/battle/BattleSetupSpec.hpp"
 #include "orion/battle/CallbackHandler.hpp"
 #include "orion/battle/ChoiceHandler.hpp"
 #include "orion/battle/Party.hpp"
+#include "orion/battle/Util.hpp"
 #include "personal_info.hpp"
 #include <array>
 #include <utility>
@@ -104,17 +106,19 @@ inline auto onSwitchIn = hook::inlineHook([](hook::CpuState* state) {
     }
 });
 
+#define IGNORE_AIRLOCK (1 << 15)
+
 #define CUSTOM_ABILITY(id, ...)                                                                                                            \
     [] {                                                                                                                                   \
         static const orion::battle::Callback callbacks[] = { __VA_ARGS__ };                                                                \
-        return orion::battle::CallbackList { id, 0, [](orion::battle::CallbackListInfo& info) {                                            \
+        return orion::battle::CallbackList { (u32)id, 0, [](orion::battle::CallbackListInfo& info) {                                       \
             info.length = sizeof(callbacks) / sizeof(callbacks[0]);                                                                        \
             return callbacks;                                                                                                              \
         } };                                                                                                                               \
     }()
 
 inline auto customAbilityCallbackLists = std::to_array<orion::battle::CallbackList>(
-    { CUSTOM_ABILITY((u32)orion_enum::Ability::Dragonize,
+    { CUSTOM_ABILITY(orion_enum::Ability::Dragonize,
                      { orion::battle::CallbackType::MODIFY_MOVE_TYPE,
                        [](orion::battle::CallbackContext* context, u8 targetId) {
     context->SetTempVar(0, 0);
@@ -141,7 +145,8 @@ inline auto customAbilityCallbackLists = std::to_array<orion::battle::CallbackLi
 } },
                      { orion::battle::CallbackType::AFTER_MOVE_CLEANUP,
                        [](orion::battle::CallbackContext* context, u8 targetId) { context->SetTempVar(0, 0); } },
-                     { orion::battle::CallbackType::MODIFY_MAX_MOVE_TYPE, [](orion::battle::CallbackContext* context, u8 targetId) {
+                     { orion::battle::CallbackType::MODIFY_MAX_MOVE_TYPE,
+                       [](orion::battle::CallbackContext* context, u8 targetId) {
     if (context->GetVar(orion::battle::BattleVariable::GENERIC_ID) == targetId)
     {
         if (context->GetVar(orion::battle::BattleVariable::MOVE_ID) == (u32)orion_enum::Move::MaxStrike)
@@ -149,7 +154,30 @@ inline auto customAbilityCallbackLists = std::to_array<orion::battle::CallbackLi
             context->SetVar(orion::battle::BattleVariable::MOVE_ID, (u32)orion_enum::Move::MaxWyrmwind);
         }
     }
+} }),
+      CUSTOM_ABILITY(orion_enum::Ability::MegaSol,
+                     { orion::battle::CallbackType::MODIFY_EFFECTIVE_WEATHER, [](orion::battle::CallbackContext* context, u8 targetId) {
+    if (context->GetVar(orion::battle::BattleVariable::GENERIC_ID) == targetId)
+    {
+        // sunny weather
+        context->SetVar(orion::battle::BattleVariable::CURRENT_WEATHER, 1 | IGNORE_AIRLOCK);
+    }
 } }) });
+
+inline auto effectiveWeatherPatch = hook::inlineHook([](hook::CpuState* state) {
+    // original instruction
+    state->X[20] = state->X[0];
+
+    auto action_handler = pun<orion::battle::ActionHandler*>(state->X[21]);
+    auto set_weather = action_handler->internalContext->GetVar(orion::battle::BattleVariable::CURRENT_WEATHER);
+    state->X[19] = set_weather & ~IGNORE_AIRLOCK;
+    if (set_weather & IGNORE_AIRLOCK)
+    {
+        // this flag is set when airlock activates and will later set the effective weather to clear
+        // it shouldn't actually impact any ability that overwrites the effective weather, so set it to false
+        state->X[20] = 0;
+    }
+});
 
 inline HkTrampoline enableCustomAbilityCallbacks
     = [](TrampolineStatic(), orion::battle::CallbackHandler* this_, orion::battle::BattlePartyMember* target, s32 abilityId) -> void {

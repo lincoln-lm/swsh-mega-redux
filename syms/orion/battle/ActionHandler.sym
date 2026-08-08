@@ -1,2 +1,3 @@
 @game:shield,sword
 _ZN5orion6battle13ActionHandler17PostAbilityChangeEh = 0x828940
+_ZN5orion6battle13ActionHandler19GetEffectiveWeatherEhj = 0x827990
