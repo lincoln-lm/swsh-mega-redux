@@ -6,6 +6,17 @@
 #include "orion/field/FieldManager.hpp"
 #include "orion/filesystem/GFFile.hpp"
 
+extern "C" {
+void* __libc_malloc(std::size_t size)
+{
+    return hk::mem::sMainHeap.allocate(size);
+}
+void __libc_free(void* ptr)
+{
+    hk::mem::sMainHeap.free(ptr);
+}
+}
+
 // TODO: find out why this allocation fails :(
 inline auto failedAllocateFix = hook::inlineHook([](hook::CpuState* state) {
     auto gffile = pun<orion::filesystem::GFFile*>(state->X[19]);
