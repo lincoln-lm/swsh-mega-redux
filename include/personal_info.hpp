@@ -104,7 +104,7 @@ namespace personal_info {
         Species::Chesnaught,   1, { 0 },    88,  137, 172, 74,  115, 44,  Type::Grass,    Type::Fighting, Ability::Bulletproof,
         Species::Delphox,      1, { 0 },    75,  69,  72,  159, 125, 134, Type::Fire,     Type::Psychic,  Ability::Levitate,
         Species::Greninja,     2, { 0 },    72,  125, 77,  133, 81,  142, Type::Water,    Type::Dark,     Ability::Protean,
-        Species::Pyroar,       1, { 0 },    86,  88,  92,  129, 86,  126, Type::Fire,     Type::Normal,   Ability::Rivalry,
+        Species::Pyroar,       1, { 0 },    86,  88,  92,  129, 86,  126, Type::Fire,     Type::Normal,   Ability::FireMane,
         Species::Floette,      1, { 0 },    74,  85,  87,  155, 148, 102, Type::Fairy,    Type::Fairy,    Ability::FairyAura,
         Species::Meowstic,     2, { 0, 1 }, 74,  48,  76,  143, 101, 124, Type::Psychic,  Type::Psychic,  Ability::Trace,
         Species::Malamar,      1, { 0 },    86,  102, 88,  98,  120, 88,  Type::Dark,     Type::Psychic,  Ability::Contrary,

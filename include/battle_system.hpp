@@ -156,11 +156,22 @@ inline auto customAbilityCallbackLists = std::to_array<orion::battle::CallbackLi
     }
 } }),
       CUSTOM_ABILITY(orion_enum::Ability::MegaSol,
-                     { orion::battle::CallbackType::MODIFY_EFFECTIVE_WEATHER, [](orion::battle::CallbackContext* context, u8 targetId) {
+                     { orion::battle::CallbackType::MODIFY_EFFECTIVE_WEATHER,
+                       [](orion::battle::CallbackContext* context, u8 targetId) {
     if (context->GetVar(orion::battle::BattleVariable::GENERIC_ID) == targetId)
     {
         // sunny weather
         context->SetVar(orion::battle::BattleVariable::CURRENT_WEATHER, 1 | IGNORE_AIRLOCK);
+    }
+} }),
+      CUSTOM_ABILITY(orion_enum::Ability::FireMane,
+                     { orion::battle::CallbackType::MODIFY_MOVE_DAMAGE, [](orion::battle::CallbackContext* context, u8 targetId) {
+    if (context->GetVar(orion::battle::BattleVariable::MOVE_USER_ID) == targetId)
+    {
+        if (context->GetVar(orion::battle::BattleVariable::MOVE_TYPE) == (u32)orion_enum::Type::Fire)
+        {
+            context->MultiplyFixedVar(orion::battle::BattleVariable::MOVE_DAMAGE_MULTIPLIER, orion::battle::floatToFixed(1.5f));
+        }
     }
 } }) });
 
