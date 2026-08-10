@@ -94,7 +94,7 @@ namespace personal_info {
         Species::Heatran,      1, { 0 },    91,  120, 106, 175, 141, 67,  Type::Fire,     Type::Steel,    Ability::FlashFire,
         Species::Darkrai,      1, { 0 },    70,  120, 130, 165, 130, 85,  Type::Dark,     Type::Dark,     Ability::BadDreams,
         Species::Emboar,       1, { 0 },    110, 148, 75,  110, 110, 75,  Type::Fire,     Type::Fighting, Ability::MoldBreaker,
-        Species::Excadrill,    1, { 0 },    110, 165, 100, 65,  65,  103, Type::Ground,   Type::Steel,    Ability::SandRush,
+        Species::Excadrill,    1, { 0 },    110, 165, 100, 65,  65,  103, Type::Ground,   Type::Steel,    Ability::PiercingDrill,
         Species::Audino,       1, { 0 },    103, 60,  126, 80,  126, 50,  Type::Normal,   Type::Fairy,    Ability::Healer,
         Species::Scolipede,    1, { 0 },    60,  140, 149, 75,  99,  62,  Type::Bug,      Type::Poison,   Ability::ShellArmor,
         Species::Scrafty,      1, { 0 },    65,  130, 135, 55,  135, 68,  Type::Dark,     Type::Fighting, Ability::Intimidate,

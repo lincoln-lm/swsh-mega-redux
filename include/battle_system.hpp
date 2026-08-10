@@ -118,7 +118,8 @@ inline auto onSwitchIn = hook::inlineHook([](hook::CpuState* state) {
     }()
 
 inline auto customAbilityCallbackLists = std::to_array<orion::battle::CallbackList>(
-    { CUSTOM_ABILITY(orion_enum::Ability::Dragonize,
+    { // Piercing Drill is just mapped to Unseen Fist
+      CUSTOM_ABILITY(orion_enum::Ability::Dragonize,
                      { orion::battle::CallbackType::MODIFY_MOVE_TYPE,
                        [](orion::battle::CallbackContext* context, u8 targetId) {
     context->SetTempVar(0, 0);
@@ -192,6 +193,10 @@ inline auto effectiveWeatherPatch = hook::inlineHook([](hook::CpuState* state) {
 
 inline HkTrampoline enableCustomAbilityCallbacks
     = [](TrampolineStatic(), orion::battle::CallbackHandler* this_, orion::battle::BattlePartyMember* target, s32 abilityId) -> void {
+    if (abilityId == (s32)orion_enum::Ability::PiercingDrill)
+    {
+        abilityId = (s32)orion_enum::Ability::UnseenFist;
+    }
     int vanilla_ability_count = sizeof(this_->abilityCallbackLists) / sizeof(this_->abilityCallbackLists[0]);
     orion::battle::CallbackListInfo callbackListInfo;
     const orion::battle::Callback* callbacks;
