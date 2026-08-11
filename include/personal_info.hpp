@@ -25,7 +25,6 @@ namespace personal_info {
     };
 
     // TODO: move to romfs?
-    // TODO: other mega abilities
     // clang-format off
     inline const std::array<MegaEvolutionInfo, 92> cMegaEvolutionInfo = {
         Species::Venusaur,     1, { 0 },    80,  100, 123, 122, 120, 80,  Type::Grass,    Type::Poison,   Ability::ThickFat,
@@ -98,7 +97,7 @@ namespace personal_info {
         Species::Audino,       1, { 0 },    103, 60,  126, 80,  126, 50,  Type::Normal,   Type::Fairy,    Ability::Healer,
         Species::Scolipede,    1, { 0 },    60,  140, 149, 75,  99,  62,  Type::Bug,      Type::Poison,   Ability::ShellArmor,
         Species::Scrafty,      1, { 0 },    65,  130, 135, 55,  135, 68,  Type::Dark,     Type::Fighting, Ability::Intimidate,
-        Species::Eelektross,   1, { 0 },    85,  145, 80,  135, 90,  80,  Type::Electric, Type::Electric, Ability::Levitate,
+        Species::Eelektross,   1, { 0 },    85,  145, 80,  135, 90,  80,  Type::Electric, Type::Electric, Ability::Eelevate,
         Species::Chandelure,   1, { 0 },    60,  75,  110, 175, 110, 90,  Type::Fire,     Type::Ghost,    Ability::Infiltrator,
         Species::Golurk,       1, { 0 },    89,  159, 105, 70,  105, 55,  Type::Ground,   Type::Ghost,    Ability::UnseenFist,
         Species::Chesnaught,   1, { 0 },    88,  137, 172, 74,  115, 44,  Type::Grass,    Type::Fighting, Ability::Bulletproof,

@@ -1,6 +1,8 @@
 #pragma once
 #include "hk/types.h"
+#include "orion/battle/Message.hpp"
 #include "orion/battle/Party.hpp"
+#include "orion/battle/StatChange.hpp"
 
 namespace orion::battle {
     enum class BattleVariable : u16
@@ -11,6 +13,8 @@ namespace orion::battle {
         MOVE_TYPE = 0x16,
         MOVE_DAMAGE_MULTIPLIER = 0x34,
         CURRENT_WEATHER = 0x3e,
+        RETURN_VALUE = 0x59,
+        MESSAGE_SHOWN = 0x75
     };
     struct InternalContext {
         // ...
@@ -25,12 +29,21 @@ namespace orion::battle {
         bool SetVar(BattleVariable var, u32 value);
         u32 GetVar(BattleVariable var);
         void MultiplyFixedVar(BattleVariable var, u32 value);
+        bool BattleIsOver();
+        s32 KoCount(u8 pokemonId);
+        void TriggerStatChange(StatChangeParameter* param);
+        void ShowMessage(MessageParameter* param);
+        BattlePartyMember* GetPokemon(u8 pokemonId);
     } __attribute__((packed));
     enum class CallbackType : u64
     {
+        FLYING_CHECK = 18,
+        GROUND_MOVE_CHECK = 29,
         MODIFY_MOVE_TYPE = 42,
         MODIFY_MOVE_DAMAGE = 72,
+        TURN_START = 148,
         MODIFY_EFFECTIVE_WEATHER = 153,
+        AFTER_MOVE_DAMAGE = 165,
         AFTER_MOVE_CLEANUP = 171,
         MODIFY_MAX_MOVE_TYPE = 228
     };

@@ -8,6 +8,10 @@ namespace orion::battle {
     struct BattlePartyMember {
         enum class Param : s32
         {
+            ATTACK = 8,
+            DEFENSE = 9,
+            SPECIAL_ATTACK = 10,
+            SPECIAL_DEFENSE = 11,
             SPEED = 12
         };
         s32 GetParam(Param param);

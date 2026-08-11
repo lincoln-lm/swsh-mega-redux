@@ -9,7 +9,9 @@
 #include "orion/battle/BattleSetupSpec.hpp"
 #include "orion/battle/CallbackHandler.hpp"
 #include "orion/battle/ChoiceHandler.hpp"
+#include "orion/battle/Message.hpp"
 #include "orion/battle/Party.hpp"
+#include "orion/battle/StatChange.hpp"
 #include "orion/battle/Util.hpp"
 #include "personal_info.hpp"
 #include <array>
@@ -166,7 +168,8 @@ inline auto customAbilityCallbackLists = std::to_array<orion::battle::CallbackLi
     }
 } }),
       CUSTOM_ABILITY(orion_enum::Ability::FireMane,
-                     { orion::battle::CallbackType::MODIFY_MOVE_DAMAGE, [](orion::battle::CallbackContext* context, u8 targetId) {
+                     { orion::battle::CallbackType::MODIFY_MOVE_DAMAGE,
+                       [](orion::battle::CallbackContext* context, u8 targetId) {
     if (context->GetVar(orion::battle::BattleVariable::MOVE_USER_ID) == targetId)
     {
         if (context->GetVar(orion::battle::BattleVariable::MOVE_TYPE) == (u32)orion_enum::Type::Fire)
@@ -174,7 +177,70 @@ inline auto customAbilityCallbackLists = std::to_array<orion::battle::CallbackLi
             context->MultiplyFixedVar(orion::battle::BattleVariable::MOVE_DAMAGE_MULTIPLIER, orion::battle::floatToFixed(1.5f));
         }
     }
-} }) });
+} }),
+      CUSTOM_ABILITY(orion_enum::Ability::Eelevate,
+                     { orion::battle::CallbackType::AFTER_MOVE_DAMAGE,
+                       [](orion::battle::CallbackContext* context, u8 targetId) {
+    if (context->BattleIsOver())
+    {
+        return;
+    }
+    auto ko_count = context->KoCount(targetId);
+    if (ko_count == 0)
+    {
+        return;
+    }
+
+    orion::battle::StatChangeParameter param;
+    param.sourcePokemon = targetId;
+    param.delta = ko_count;
+    param.showAbility = true;
+    param.targetCount = 1;
+    param.targets[0] = targetId;
+
+    auto pokemon = context->GetPokemon(targetId);
+    u32 highest_stat = 0;
+    auto test_stat = [&pokemon, &highest_stat, &param](auto param_stat, auto battle_stat) {
+        if (pokemon->GetParam(param_stat) > highest_stat)
+        {
+            highest_stat = pokemon->GetParam(param_stat);
+            param.stat = battle_stat;
+        }
+    };
+    test_stat(orion::battle::BattlePartyMember::Param::ATTACK, orion::battle::Stat::ATTACK);
+    test_stat(orion::battle::BattlePartyMember::Param::DEFENSE, orion::battle::Stat::DEFENSE);
+    test_stat(orion::battle::BattlePartyMember::Param::SPECIAL_ATTACK, orion::battle::Stat::SPECIAL_ATTACK);
+    test_stat(orion::battle::BattlePartyMember::Param::SPECIAL_DEFENSE, orion::battle::Stat::SPECIAL_DEFENSE);
+    test_stat(orion::battle::BattlePartyMember::Param::SPEED, orion::battle::Stat::SPEED);
+
+    context->TriggerStatChange(&param);
+} },
+                     { orion::battle::CallbackType::TURN_START, [](orion::battle::CallbackContext* context, u8 targetId) {
+                        if (context->GetVar(orion::battle::BattleVariable::GENERIC_ID) == targetId) {
+                            context->SetTempVar(0, 0);
+                        }
+                      } },
+                     { orion::battle::CallbackType::GROUND_MOVE_CHECK, [](orion::battle::CallbackContext* context, u8 targetId) {
+                        if (context->GetVar(orion::battle::BattleVariable::GENERIC_ID) == targetId) {
+                            if (context->GetTempVar(0)) {
+                                orion::battle::MessageParameter param;
+                                param.targetPokemon = targetId;
+                                param.showAbility = true;
+                                param.string.SetStringParams(2, 0x120);
+                                param.string.AddFormatArg(targetId);
+                                context->ShowMessage(&param);
+                                context->SetVar(orion::battle::BattleVariable::MESSAGE_SHOWN, 1);
+                                context->SetTempVar(0, 0);
+                            }
+                        }
+                      } },
+                     { orion::battle::CallbackType::FLYING_CHECK, [](orion::battle::CallbackContext* context, u8 targetId) {
+                        if (context->GetVar(orion::battle::BattleVariable::GENERIC_ID) == targetId) {
+                            if (context->GetVar(orion::battle::BattleVariable::RETURN_VALUE) == 0) {
+                                context->SetTempVar(0, context->SetVar(orion::battle::BattleVariable::RETURN_VALUE, 1));
+                            }
+                        }
+                      } }) });
 
 inline auto effectiveWeatherPatch = hook::inlineHook([](hook::CpuState* state) {
     // original instruction
