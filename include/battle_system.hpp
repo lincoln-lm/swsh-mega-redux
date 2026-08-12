@@ -197,18 +197,18 @@ inline auto customAbilityCallbackLists = std::to_array<orion::battle::CallbackLi
 
     auto pokemon = context->GetPokemon(targetId);
     u32 highest_stat = 0;
-    auto test_stat = [&pokemon, &highest_stat, &param](auto param_stat, auto battle_stat) {
-        if (pokemon->GetParam(param_stat) > highest_stat)
+    auto test_stat = [&pokemon, &highest_stat, &param](auto field_stat, auto battle_stat) {
+        if (pokemon->GetField(field_stat) > highest_stat)
         {
-            highest_stat = pokemon->GetParam(param_stat);
+            highest_stat = pokemon->GetField(field_stat);
             param.stat = battle_stat;
         }
     };
-    test_stat(orion::battle::BattlePartyMember::Param::ATTACK, orion::battle::Stat::ATTACK);
-    test_stat(orion::battle::BattlePartyMember::Param::DEFENSE, orion::battle::Stat::DEFENSE);
-    test_stat(orion::battle::BattlePartyMember::Param::SPECIAL_ATTACK, orion::battle::Stat::SPECIAL_ATTACK);
-    test_stat(orion::battle::BattlePartyMember::Param::SPECIAL_DEFENSE, orion::battle::Stat::SPECIAL_DEFENSE);
-    test_stat(orion::battle::BattlePartyMember::Param::SPEED, orion::battle::Stat::SPEED);
+    test_stat(orion::battle::BattlePartyMember::Field::ATTACK, orion::battle::Stat::ATTACK);
+    test_stat(orion::battle::BattlePartyMember::Field::DEFENSE, orion::battle::Stat::DEFENSE);
+    test_stat(orion::battle::BattlePartyMember::Field::SPECIAL_ATTACK, orion::battle::Stat::SPECIAL_ATTACK);
+    test_stat(orion::battle::BattlePartyMember::Field::SPECIAL_DEFENSE, orion::battle::Stat::SPECIAL_DEFENSE);
+    test_stat(orion::battle::BattlePartyMember::Field::SPEED, orion::battle::Stat::SPEED);
 
     context->TriggerStatChange(&param);
 } },
@@ -285,7 +285,7 @@ inline HkTrampoline enableCustomAbilityCallbacks
             }
         }
     }
-    target->GetParam(orion::battle::BattlePartyMember::Param::SPEED);
-    this_->AddCallbacks(4, abilityId, 7, target->GetParam(orion::battle::BattlePartyMember::Param::SPEED) & 0xFFFF, target->id, callbacks,
+    target->GetField(orion::battle::BattlePartyMember::Field::SPEED);
+    this_->AddCallbacks(4, abilityId, 7, target->GetField(orion::battle::BattlePartyMember::Field::SPEED) & 0xFFFF, target->id, callbacks,
                         callbackListInfo.length);
 };

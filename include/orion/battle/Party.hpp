@@ -6,7 +6,7 @@
 
 namespace orion::battle {
     struct BattlePartyMember {
-        enum class Param : s32
+        enum class Field : s32
         {
             ATTACK = 8,
             DEFENSE = 9,
@@ -14,7 +14,7 @@ namespace orion::battle {
             SPECIAL_DEFENSE = 11,
             SPEED = 12
         };
-        s32 GetParam(Param param);
+        s32 GetField(Field field);
         // base object
         u8 unk0[0x60];
         field::PokeInfo* rawPokeInfo;
