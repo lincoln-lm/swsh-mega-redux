@@ -1,0 +1,6 @@
+@game:shield,sword
+_ZN5orion4item11ItemManager4Data3GetEt = 0x787ec0
+_ZN5orion4item11ItemManager12GetItemFieldEjNS0_8ItemInfo5FieldE = 0x788c50
+_ZN5orion4item15ItemInfoWrapper12GetItemFieldENS0_8ItemInfo5FieldE = 0x788630
+_ZN5orion4item11ItemManager11IsEventItemEj = 0x788ce0
+_ZN5orion4item11ItemManager5sDataE = 0x294d160

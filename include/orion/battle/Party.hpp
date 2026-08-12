@@ -14,7 +14,11 @@ namespace orion::battle {
             SPECIAL_DEFENSE = 11,
             SPEED = 12
         };
+        struct BattlePartyMemberSpec {
+            // TODO: ...
+        };
         s32 GetField(Field field);
+        void InitFromSpec(BattlePartyMemberSpec* spec);
         // base object
         u8 unk0[0x60];
         field::PokeInfo* rawPokeInfo;

@@ -15,8 +15,16 @@
 #include "battle_system.hpp"
 #include "battle_ui.hpp"
 #include "effect_sequence.hpp"
+#include "item_info.hpp"
 #include "overworld.hpp"
 #include "personal_info.hpp"
+
+template <hk::AnyFunctionPointerType T>
+inline void* instrPtrOffset(T func, ptr offset)
+{
+    using Traits = hk::util::FunctionTraits<T>;
+    return pun<void*>(Traits::getAddress(func) + offset);
+}
 
 inline void installMegaEvolutionMod()
 {
@@ -41,4 +49,7 @@ inline void installMegaEvolutionMod()
     replaceFollowingWithMega.installAtPtrOffset(&orion::field::GimmickEncountSpawner::Spawn, 0x2ac);
     enableCustomAbilityCallbacks.installAtPtr(&orion::battle::CallbackHandler::EnableAbilityCallback);
     effectiveWeatherPatch.installAtPtrOffset(&orion::battle::ActionHandler::GetEffectiveWeather, 0x70);
+    getItemField.installAtPtr(&orion::item::ItemManager::GetItemField);
+    isEventItem.installAtPtr(&orion::item::ItemManager::IsEventItem);
+    battlePartyMemberCSelPatch.installAtPtr(instrPtrOffset(&orion::battle::BattlePartyMember::InitFromSpec, 0x98));
 }
