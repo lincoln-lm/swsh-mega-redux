@@ -14,8 +14,7 @@ namespace orion::field {
         void* mRng;
 
         static SystemManager* sInstance;
-        inline static SystemManager* instance() {
-            return sInstance;
-        }
+        inline static SystemManager* instance() { return sInstance; }
+        static PokeInfo* GetLeadPokemon();
     };
 }

@@ -1,2 +1,6 @@
 @game:shield,sword
 _ZN5orion5field13SystemManager9sInstanceE = 0x26365b8
+@game:shield
+_ZN5orion5field13SystemManager14GetLeadPokemonEv = 0xea42f0
+@game:sword
+_ZN5orion5field13SystemManager14GetLeadPokemonEv = 0xea42c0

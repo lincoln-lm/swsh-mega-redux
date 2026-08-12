@@ -42,6 +42,7 @@ inline HkTrampoline onInitialize = [](TrampolineStatic(), orion::battle::ui::Mov
     orig(this_);
 };
 
+// TODO: hiding/showing the button on update leaves a frame or two of it being visible
 inline HkTrampoline onUpdate = [](TrampolineStatic(), orion::battle::ui::BattleUI* this_) -> void {
     orig(this_);
     auto active_pokemon = this_->unk68->unk60->activePokemon;

@@ -1,9 +1,10 @@
 #pragma once
 #include "hk/hook/Trampoline.h"
-#include "hk/util/Random.h"
 #include "hook/InlineHook.hpp"
 #include "orion/field/FieldManager.hpp"
 #include "orion/field/FieldObject.hpp"
+#include "orion/field/PokeInfo.hpp"
+#include "orion/field/SystemManager.hpp"
 #include "orion/string/HashedString.hpp"
 #include "personal_info.hpp"
 #include "util/FNV.hpp"
@@ -255,8 +256,8 @@ inline auto onFollowingPokemonInteract = hook::inlineHook([](hook::CpuState* sta
     {
         auto species = following_pokemon->species;
         auto form = following_pokemon->form;
-        // TODO: check items
-        if (personal_info::speciesCanPrimalRevert(species) && !personal_info::isPrimal(species, form))
+        auto lead_pokemon = orion::field::SystemManager::GetLeadPokemon();
+        if (personal_info::canPrimalRevert(species, form, lead_pokemon->GetHeldItem()))
         {
             if ((personal_info::Species)species == personal_info::Species::Kyogre)
             {
@@ -273,7 +274,7 @@ inline auto onFollowingPokemonInteract = hook::inlineHook([](hook::CpuState* sta
                 sGroudonReversion.Start();
             }
         }
-        else if (personal_info::canMegaEvolve(species, form, 0))
+        else if (personal_info::canMegaEvolve(species, form, lead_pokemon->GetHeldItem()))
         {
             sFollowingPokemonMegaInfo.species = species;
             sFollowingPokemonMegaInfo.form = form;
@@ -286,6 +287,7 @@ inline auto onFollowingPokemonInteract = hook::inlineHook([](hook::CpuState* sta
 inline auto replaceFollowingWithMega = hook::inlineHook([](hook::CpuState* state) {
     // original instruction
     state->X[0] = state->X[24];
+    auto lead_pokemon_info = pun<orion::field::PokeInfo*>(state->X[24]);
     if (sFollowingPokemonMegaInfo.nextSpawnIsMega)
     {
         sFollowingPokemonMegaInfo.nextSpawnIsMega = false;
@@ -308,11 +310,11 @@ inline auto replaceFollowingWithMega = hook::inlineHook([](hook::CpuState* state
             return;
         }
 
-        // TODO: XYZ
-        auto all_mega_info = personal_info::getAllMegasForBaseForm(*species_ptr, *form_ptr);
-        auto mega_info = all_mega_info.list[hk::util::getRandomU64() % all_mega_info.count()];
-
-        *species_ptr = std::to_underlying(mega_info->species);
-        *form_ptr = mega_info->form;
+        auto mega_info = personal_info::getMega(*species_ptr, *form_ptr, lead_pokemon_info->GetHeldItem());
+        if (mega_info != nullptr)
+        {
+            *species_ptr = std::to_underlying(mega_info->species);
+            *form_ptr = mega_info->form;
+        }
     }
 });

@@ -2,7 +2,6 @@
 #include "enum/Move.hpp"
 #include "enum/Type.hpp"
 #include "hk/hook/Trampoline.h"
-#include "hk/util/Random.h"
 #include "hook/InlineHook.hpp"
 #include "orion/battle/ActionHandler.hpp"
 #include "orion/battle/BattleHandler.hpp"
@@ -32,9 +31,7 @@ inline HkTrampoline onBattleSetupInitialize
 inline void triggerMega(orion::battle::BattleHandler* battle_handler, orion::battle::ActionHandler* action_handler,
                         orion::battle::BattlePartyMember* b)
 {
-    // TODO: XYZ
-    auto all_mega_info = personal_info::getAllMegasForBaseForm(b->species, b->rawPokeInfo->GetForm());
-    auto mega_info = all_mega_info.list[hk::util::getRandomU64() % all_mega_info.count()];
+    auto mega_info = personal_info::getMega(b->species, b->rawPokeInfo->GetForm(), b->item);
     battle_handler->FormChange(b->id, mega_info->form, true);
     u16 new_ability = b->rawPokeInfo->GetAbility();
     battle_handler->FormChangeDisplay(b->id);
